@@ -5,7 +5,7 @@ session_start () ;
 // variables globales
 $bdServeur = "localhost" ;
 $bdUser = "root" ;
-$bdMdp = "" ;
+$bdMdp = "test" ;
 $bdBase = "boutique" ; 
 $prixTshirt = 25 ;
 
