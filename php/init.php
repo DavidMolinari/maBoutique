@@ -16,17 +16,17 @@ include_once ("outils.php") ;
 
 $link = Connexion() ;
 
-// récupération de l'éventuel cookie
+// rï¿½cupï¿½ration de l'ï¿½ventuel cookie
 if (isset($_COOKIE["login"])) {
   $leId = ($_COOKIE["login"] + 27) / 353 ;
-  $curseur = mysql_query("select * from client where numclient=".$leId) ;
-  if (mysql_num_rows($curseur)!=0) {
-    $_SESSION["login"] = mysql_result($curseur, 0, "login") ;
-    $_SESSION["id"] = mysql_result($curseur, 0, "numclient") ;
+  $curseur = mysqli_query($link, "select * from client where numclient=".$leId) ;
+  if (mysqli_num_rows($curseur)!=0) {
+    $_SESSION["login"] = mysqli_result($curseur, 0, "login") ;
+    $_SESSION["id"] = mysqli_result($curseur, 0, "numclient") ;
   }
 }
 
-// récupération des variables de session éventuelles
+// rï¿½cupï¿½ration des variables de session ï¿½ventuelles
 if (isset($_SESSION["login"])) {
   $login = $_SESSION["login"] ;
   $id = $_SESSION["id"] ;  

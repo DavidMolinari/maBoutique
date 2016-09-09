@@ -25,7 +25,7 @@
           <div class="petitTitre">bienvenue</div><br />
           <div class="petitTexte">
             bonjour <label id="lblLogin"><?php echo $login ?></label><br /><br />
-            <a href="#" id="aDeconnecter">se d�connecter</a>
+            <a href="php/logout.php" id="aDeconnecter">se d�connecter</a>
           </div>
         </div>        
       </div>

@@ -15,25 +15,25 @@
   $mdp = "" ;
   $mdpverif = "" ;
 
-  // vérifie si la personne est connectée
+  // vï¿½rifie si la personne est connectï¿½e
   if (isset($_SESSION["id"])) { 
-    // si elle est connectée, récupération de ses informations personnelles
-    $curseur = mysql_query("select * from client where numclient = ".$_SESSION["id"]) ;
-    $nom = mysql_result($curseur, 0, "nom") ;
-    $prenom = mysql_result($curseur, 0, "prenom") ;
-    $adr1 = mysql_result($curseur, 0, "adr1") ;
-    $adr2 = mysql_result($curseur, 0, "adr2") ;
-    $cp = mysql_result($curseur, 0, "cp") ;
-    $ville = mysql_result($curseur, 0, "ville") ;
-    $infoslivraison = mysql_result($curseur, 0, "infoslivraison") ;
-    $tel = mysql_result($curseur, 0, "tel") ;
-    $mail = mysql_result($curseur, 0, "mail") ;
-    $login = mysql_result($curseur, 0, "login") ;
-    $mdp = mysql_result($curseur, 0, "mdp") ;
-    $mdpverif = mysql_result($curseur, 0, "mdp") ;
+    // si elle est connectï¿½e, rï¿½cupï¿½ration de ses informations personnelles
+    $curseur = mysqli_query($link, "select * from client where numclient = ".$_SESSION["id"]) ;
+    $nom = mysqli_result($curseur, 0, "nom") ;
+    $prenom = mysqli_result($curseur, 0, "prenom") ;
+    $adr1 = mysqli_result($curseur, 0, "adr1") ;
+    $adr2 = mysqli_result($curseur, 0, "adr2") ;
+    $cp = mysqli_result($curseur, 0, "cp") ;
+    $ville = mysqli_result($curseur, 0, "ville") ;
+    $infoslivraison = mysqli_result($curseur, 0, "infoslivraison") ;
+    $tel = mysqli_result($curseur, 0, "tel") ;
+    $mail = mysqli_result($curseur, 0, "mail") ;
+    $login = mysqli_result($curseur, 0, "login") ;
+    $mdp = mysqli_result($curseur, 0, "mdp") ;
+    $mdpverif = mysqli_result($curseur, 0, "mdp") ;
     $message = "Bienvenue dans votre espace personnel.<br />Vous pouvez consulter, modifier vos informations et les enregistrer." ;
   }else{
-    // si c'est une nouvelle personne, message personnalisé (et les variables restent vides)
+    // si c'est une nouvelle personne, message personnalisï¿½ (et les variables restent vides)
     $message = "Bienvenue dans l'espace d'inscription.<br />Saisissez vos informations. Les zones avec * sont obligatoires." ;
   }
   
@@ -55,15 +55,15 @@
     $lesinfos = '<table id="tabPerso">' ;
     $lesinfos .= uneCase("login", "login", $login, 20, true) ;    
     $lesinfos .= uneCase("mdp", "mot de passe", $mdp, 20, true, true) ;    
-    $lesinfos .= uneCase("mdpverif", "mot de passe (contrôle)", $mdpverif, 20, true, true) ;    
+    $lesinfos .= uneCase("mdpverif", "mot de passe (contrï¿½le)", $mdpverif, 20, true, true) ;    
     $lesinfos .= uneCase("nom", "nom", $nom, 30, true) ;    
     $lesinfos .= uneCase("prenom", "prenom", $prenom, 30, true) ;    
     $lesinfos .= uneCase("adr1", "adresse", $adr1, 50, true) ;    
-    $lesinfos .= uneCase("adr2", "complément adresse", $adr2, 50) ;    
+    $lesinfos .= uneCase("adr2", "complï¿½ment adresse", $adr2, 50) ;    
     $lesinfos .= uneCase("cp", "code postal", $cp, 5, true) ;    
     $lesinfos .= uneCase("ville", "ville", $ville, 30, true) ;    
     $lesinfos .= uneCase("infoslivraison", "informations livraison", $infoslivraison, 50) ;    
-    $lesinfos .= uneCase("tel", "téléphone", $tel, 10) ;    
+    $lesinfos .= uneCase("tel", "tï¿½lï¿½phone", $tel, 10) ;    
     $lesinfos .= uneCase("mail", "adresse mail", $mail, 50) ;    
     $lesinfos .= "</table>" ;
     echo $lesinfos ;              
