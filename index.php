@@ -14,7 +14,7 @@
       <!-- zone d'identification -->
       <div id="divIdent">
         <div id="divTextIdent">
-          <div class="petitTitre">déjà client</div><br />
+          <div class="petitTitre">dï¿½jï¿½ client</div><br />
           <div class="petitTexte">
             login : <input id="txtLogin" name="txtLogin" type="text" maxlength="20" size="10" class="petitTexte" /><br />
             mdp : <input id="pwdMdp" name="pwdMdp" type="password" maxlength="20" size="4" class="petitTexte" />
@@ -25,7 +25,7 @@
           <div class="petitTitre">bienvenue</div><br />
           <div class="petitTexte">
             bonjour <label id="lblLogin"><?php echo $login ?></label><br /><br />
-            <a href="#" id="aDeconnecter">se déconnecter</a>
+            <a href="#" id="aDeconnecter">se dï¿½connecter</a>
           </div>
         </div>        
       </div>
@@ -67,10 +67,10 @@
       <!-- zone des 4 postits du menu -->
       <div id="divPostits">
         <?php
-          $postits = array( "tshirt" => "t-shirt personnalisé", 
+          $postits = array( "tshirt" => "t-shirt personnalisï¿½", 
                             "boutique" => "boutique",
                             "panier" => "votre panier",
-                            "espace perso" => "votre espace perso") ;
+                            "perso" => "votre espace perso") ;
           $k = 1 ;
           foreach ($postits as $cle => $valeur) {
             echo '<div id="divPostit'.$k.'" class="divPostit petitTitre">' ;
@@ -81,13 +81,13 @@
         ?>
       </div>
 
-      <!-- zone des liens vers l'extérieur -->
+      <!-- zone des liens vers l'extï¿½rieur -->
       <div id="divLiens">
         <div id="divTextLiens">
           <div class="petitTitre">mes liens favoris</div><br />
           <div class="petitTexte">
-            <a href="http://www.meteofrance.com">Météo France : les meilleures prévisions</a><br />
-            <a href="http://www.horlogeparlante.com">Horloge parlante : soyez à l'heure</a>
+            <a href="http://www.meteofrance.com">Mï¿½tï¿½o France : les meilleures prï¿½visions</a><br />
+            <a href="http://www.horlogeparlante.com">Horloge parlante : soyez ï¿½ l'heure</a>
           
           </div>
         </div>
