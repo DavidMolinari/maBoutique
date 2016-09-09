@@ -7,10 +7,10 @@
 		function Connexion(){
 			global $bdServeur, $bdUser, $bdMdp, $bdBase ;
 			
-			mysql_connect($bdServeur, $bdUser, $bdMdp)
+			$link = mysqli_connect($bdServeur, $bdUser, $bdMdp)
 				or die("Erreur de connexion au serveur");
 				
-			mysql_select_db($bdBase)
+			mysqli_select_db($link, $bdBase)
 				or die("Erreur sur le nom de la base de donnée");
 		}
 
