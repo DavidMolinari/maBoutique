@@ -14,7 +14,7 @@ include_once ("chaines.php") ;
 include_once ("curseurs.php") ;
 include_once ("outils.php") ;
 
-Connexion() ;
+$link = Connexion() ;
 
 // récupération de l'éventuel cookie
 if (isset($_COOKIE["login"])) {

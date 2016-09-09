@@ -1,16 +1,16 @@
 <?php       
 include_once("php/init.php") ;
-Connexion() ;
+$link = Connexion() ;
 
 //--- demande et contrôle d'identification ---
 if (isset($_GET["txtLogin"])) {
   $login = $_GET["txtLogin"] ;
   $mdp = $_GET["pwdMdp"] ;
 
-  $curseur = mysql_query("select * from client where login='".$login."' and mdp='".$mdp."'") ;
-  if (mysql_num_rows($curseur)!=0) {
+  $curseur = mysqli_query($link, "select * from client where login='".$login."' and mdp='".$mdp."'") ;
+  if (mysqli_num_rows($curseur)!=0) {
     $_SESSION["login"] = $login ;
-    $_SESSION["id"] = mysql_result($curseur, 0, "numclient") ;
+    $_SESSION["id"] = mysqli_result($curseur, 0, "numclient") ;
     setcookie("login", $_SESSION["id"] * 353 - 27, time()+60*60*24*3600) ;
     echo $login ;
   }else{
@@ -36,24 +36,24 @@ if (isset($_GET["txtLogin"])) {
 //--- insertion d'un article dans le panier (si la personne est identifiée) ---
 }elseif (isset($_POST["panierplus"])) {
   if (isset($_SESSION["id"])) {
-    mysql_query("insert into panier values( ".$_SESSION["id"].", ".$_POST["panierplus"].")") ;
+    mysqli_query($link, "insert into panier values( ".$_SESSION["id"].", ".$_POST["panierplus"].")") ;
   }
 
 //--- suppression d'un article du panier (si la personne est identifiée) ---
 }elseif (isset($_POST["paniermoins"])) {
   if (isset($_SESSION["id"])) {
-    mysql_query("delete from panier where idclient=".$_SESSION["id"]." and idarticle=".$_POST["paniermoins"]) ;
+    mysqli_query($link, "delete from panier where idclient=".$_SESSION["id"]." and idarticle=".$_POST["paniermoins"]) ;
   }
 
 //--- contrôle si le login saisi n'existe pas déjà ---
 }elseif (isset($_GET["controle"])) {
   $login = $_GET["controle"] ;
-  $curseur = mysql_query("select * from client where login='".$login."'") ;
-  if (mysql_num_rows($curseur)==0) {
+  $curseur = mysqli_query($link, "select * from client where login='".$login."'") ;
+  if (mysqli_num_rows($curseur)==0) {
     echo "faux" ;
   }elseif (!isset($_SESSION["id"])) {
     echo "vrai" ;
-  }elseif ($_SESSION["id"]!=mysql_result($curseur, 0, "numclient")) {
+  }elseif ($_SESSION["id"]!=mysqli_result($curseur, 0, "numclient")) {
     echo "vrai" ;
   }else{
     echo "faux" ;
@@ -78,11 +78,11 @@ if (isset($_GET["txtLogin"])) {
   if (isset($_SESSION["id"])) {
     $id = $_SESSION["id"] ; 
     $requete = 'update client set nom="'.$nom.'", prenom="'.$prenom.'", adr1="'.$adr1.'", adr2="'.$adr2.'", cp="'.$cp.'", ville="'.$ville.'", infoslivraison="'.$infoslivraison.'", tel="'.$tel.'", mail="'.$mail.'", login="'.$login.'", mdp="'.$mdp.'" where numclient='.$id ;
-    mysql_query($requete) ;
+    mysqli_query($link, $requete) ;
   }else{
     $requete = 'insert into client values ("", "'.$nom.'", "'.$prenom.'", "'.$adr1.'", "'.$adr2.'", "'.$cp.'", "'.$ville.'", "'.$infoslivraison.'", "'.$tel.'", "'.$mail.'", "'.$login.'", "'.$mdp.'")' ;
-    mysql_query($requete) ;
-    $id = mysql_insert_id() ;
+    mysqli_query($link, $requete) ;
+    $id = mysqli_insert_id() ;
   }
 
   // met à jour les variables de session et le cookie
