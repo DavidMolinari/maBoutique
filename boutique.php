@@ -24,7 +24,6 @@
         $curseur= $DBH->prepare("select * from panier where idclient= :idclient and idarticle= :idarticle");
         $curseur->bindParam(':idclient',$_SESSION["id"]);
         $curseur->bindParam(':idarticle',$k);
-
         $curseur->execute();
         $result = $curseur->fetch();
         $articlePresent = ($curseur->rowCount()!=0) ;
@@ -36,11 +35,14 @@
         $nom = substr($fic,0,strlen($fic)-4) ;
         // r�cup�ration des informations du fichier image
 
+        // On fait des tests pour savoir si le fichier et ses métadonnées existent, sinon on laisse à vide.
+        // + Edit de l'origine des images
         $infos = exif_read_data($ficComplet, 0, true);
         if(isset($infos["IFD0"]["Comments"])) {$commentaire = enleveUnSurDeux($infos["IFD0"]["Comments"]); } else $commentaire = "";
         if(isset($infos["IFD0"]["Subject"])) {$sujet = enleveUnSurDeux($infos["IFD0"]["Subject"]) ; } else $sujet = "";
         if(isset($infos["IFD0"]["Title"])) {$titre = enleveUnSurDeux($infos["IFD0"]["Title"]) ; } else $titre = "";
 
+        // Ancienne version
         //$commentaire = enleveUnSurDeux($infos["IFD0"]["Comments"]) ;
         //$title = enleveUnSurDeux($infos["IFD0"]["Title"]) ;
         //$sujet = enleveUnSurDeux($infos["IFD0"]["Subject"]) ;
