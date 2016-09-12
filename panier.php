@@ -55,9 +55,9 @@ if (!isset($_SESSION["id"])) { ?>
           $nom = substr($fic,0,strlen($fic)-4) ;
           // r�cup�ration des informations du fichier image
           $infos = exif_read_data($ficComplet, 0, true) ;
-          $titre = enleveUnSurDeux($infos["IFD0"]["Title"]) ;
-          $sujet = enleveUnSurDeux($infos["IFD0"]["Subject"]) ;
-          $commentaire = enleveUnSurDeux($infos["IFD0"]["Comments"]) ;
+        if(isset($infos["IFD0"]["Comments"])) {$commentaire = enleveUnSurDeux($infos["IFD0"]["Comments"]); } else $commentaire = "";
+        if(isset($infos["IFD0"]["Subject"])) {$sujet = enleveUnSurDeux($infos["IFD0"]["Subject"]) ; } else $sujet = "";
+        if(isset($infos["IFD0"]["Title"])) {$titre = enleveUnSurDeux($infos["IFD0"]["Title"]) ; } else $titre = "";
           // construction de la ligne � gauche
           $lesarticles .= '<tbody id="ppanier'.$i.'"><tr id="trpanier'.$i.'">' ;
           $lesarticles .= '<td class="td1"><img id="img'.$i.'" src="'.$ficComplet.'" alt="'.$k.'" class="imgBoutique" /></td>' ;
