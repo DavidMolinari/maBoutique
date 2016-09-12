@@ -52,7 +52,7 @@ if (isset($_GET["txtLogin"])) {
   if (isset($_SESSION["id"])) {
 	$query = $DBH->prepare("delete from panier where idclient= :id and idarticle= :paniermoins");
 	$query->bindParam(':id',$_SESSION["id"] );
-	$query->bindParam(':panierplus',$_POST["paniermoins"] );
+	$query->bindParam(':paniermoins',$_POST["paniermoins"] );
 	$query->execute();
   }
 
@@ -91,7 +91,7 @@ if (isset($_GET["txtLogin"])) {
   // ajoute ou modifie (suivant si la personne existe ou non)
   if (isset($_SESSION["id"])) {
     $id = $_SESSION["id"] ;
-	$requete = $DBH->prepare( "UPDATE CLIENT SET nom= :nom, prenom = :prenom,adr1= :adr1, adr2= :adr2, cp= :cp, ville= :ville, infolivraison= :infolivraison, tel= :tel, mail= :mail, login= login, mdp= :mdp, where numclient= :numclient");
+	$requete = $DBH->prepare( "update CLIENT SET nom= :nom, prenom = :prenom,adr1= :adr1, adr2= :adr2, cp= :cp, ville= :ville, infolivraison= :infolivraison, tel= :tel, mail= :mail, login= login, mdp= :mdp, where numclient= :numclient");
 	$requete->bindParam(':nom',$nom );
 	$requete->bindParam(':prenom',$prenom );
 	$requete->bindParam(':adr1',$adr1 );
