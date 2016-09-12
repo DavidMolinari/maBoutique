@@ -8,9 +8,7 @@ if (isset($_GET["txtLogin"])) {
   $mdp = $_GET["pwdMdp"] ;
   
   $curseur = $DBH->prepare( "select * from client where login= :login and mdp = :mdp");
-  
   $curseur->bindParam(':login',$login );
-  
   $curseur->bindParam(':mdp',$mdp );
   $curseur->execute();
   $result = $curseur->fetch();
@@ -87,12 +85,42 @@ if (isset($_GET["txtLogin"])) {
   // ajoute ou modifie (suivant si la personne existe ou non)
   if (isset($_SESSION["id"])) {
     $id = $_SESSION["id"] ; 
-    $requete = 'update client set nom="'.$nom.'", prenom="'.$prenom.'", adr1="'.$adr1.'", adr2="'.$adr2.'", cp="'.$cp.'", ville="'.$ville.'", infoslivraison="'.$infoslivraison.'", tel="'.$tel.'", mail="'.$mail.'", login="'.$login.'", mdp="'.$mdp.'" where numclient='.$id ;
-    mysqli_query($link, $requete) ;
-  }else{
-    $requete = 'insert into client values ("", "'.$nom.'", "'.$prenom.'", "'.$adr1.'", "'.$adr2.'", "'.$cp.'", "'.$ville.'", "'.$infoslivraison.'", "'.$tel.'", "'.$mail.'", "'.$login.'", "'.$mdp.'")' ;
-    mysqli_query($link, $requete) ;
-    $id = mysqli_insert_id() ;
+	$requete = $DBH->prepare( "UPDATE CLIENT SET nom= :nom, prenom = :prenom,adr1= :adr1, adr2= :adr2, cp= :cp, ville= :ville, infolivraison= :infolivraison, tel= :tel, mail= :mail, login= login, mdp= :mdp, where numclient= :numclient");
+	$requete->bindParam(':nom',$nom );
+	$requete->bindParam(':prenom',$prenom );
+	$requete->bindParam(':adr1',$adr1 );
+	$requete->bindParam(':adr2',$adr2 );
+	$requete->bindParam(':cp',$cp );
+	$requete->bindParam(':ville',$ville );
+	$requete->bindParam(':infoslivraison',$infoslivraison );
+	$requete->bindParam(':tel',$tel );
+	$requete->bindParam(':mail',$mail );
+	$requete->bindParam(':login',$login );
+	$requete->bindParam(':mdp',$mdp );
+	$requete->bindParam(':numclient',$id );
+	$requete->execute();
+	$result = $requete->fetch();
+  
+   // $requete = 'update client set nom="'.$nom.'", prenom="'.$prenom.'", adr1="'.$adr1.'", adr2="'.$adr2.'", cp="'.$cp.'", 
+	//ville="'.$ville.'", infoslivraison="'.$infoslivraison.'", tel="'.$tel.'", mail="'.$mail.'", login="'.$login.'", mdp="'.$mdp.'" where numclient='.$id ;
+   // mysqli_query($link, $requete) ;
+  }else{  
+    $requete = $DBH->prepare('insert into client values ("", ":nom", ":prenom", ":adr1", ":adr1", ":cp", ":ville", ":infoslivraison", ":tel", ":mail", ":login", ":mdp"') ;
+	$requete->bindParam(':nom',$nom );
+	$requete->bindParam(':prenom',$prenom );
+	$requete->bindParam(':adr1',$adr1 );
+	$requete->bindParam(':adr2',$adr2 );
+	$requete->bindParam(':cp',$cp );
+	$requete->bindParam(':ville',$ville );
+	$requete->bindParam(':infoslivraison',$infoslivraison );
+	$requete->bindParam(':tel',$tel );
+	$requete->bindParam(':mail',$mail );
+	$requete->bindParam(':login',$login );
+	$requete->bindParam(':mdp',$mdp );
+	$requete->bindParam(':numclient',$id );
+	$requete->execute();
+	$result = $requete->fetch();
+    $id = $DBH->lastInsertId();
   }
 
   // met à jour les variables de session et le cookie
