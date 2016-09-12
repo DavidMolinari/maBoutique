@@ -1,16 +1,26 @@
 <?php       
 include_once("php/init.php") ;
-$link = Connexion() ;
+$DBH = Connexion() ;
 
 //--- demande et contrôle d'identification ---
 if (isset($_GET["txtLogin"])) {
   $login = $_GET["txtLogin"] ;
   $mdp = $_GET["pwdMdp"] ;
+  
+  $curseur = $DBH->prepare( "select * from client where login= :login and mdp = :mdp");
+  
+  $curseur->bindParam(':login',$login );
+  
+  $curseur->bindParam(':mdp',$mdp );
+  $curseur->execute();
+  $result = $curseur->fetch();
+  
 
-  $curseur = mysqli_query($link, "select * from client where login='".$login."' and mdp='".$mdp."'") ;
-  if (mysqli_num_rows($curseur)!=0) {
+  //$curseur = mysqli_query($link, "select * from client where login='".$login."' and mdp='".$mdp."'") ;
+
+  if ($curseur->rowCount() !=0) {
     $_SESSION["login"] = $login ;
-    $_SESSION["id"] = mysqli_result($curseur, 0, "numclient") ;
+    $_SESSION["id"] = $result['numclient'];
     setcookie("login", $_SESSION["id"] * 353 - 27, time()+60*60*24*3600) ;
     echo $login ;
   }else{

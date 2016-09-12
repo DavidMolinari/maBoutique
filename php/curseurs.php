@@ -1,22 +1,25 @@
 <?php
 
 /**
- * Connexion à la base de données à partir de variables globales
+ * Connexion ï¿½ la base de donnï¿½es ï¿½ partir de variables globales
  */     
 
-		function Connexion(){
-			global $bdServeur, $bdUser, $bdMdp, $bdBase ;
-			
-			$link = mysqli_connect($bdServeur, $bdUser, $bdMdp)
-				or die("Erreur de connexion au serveur");
+    function Connexion(){
+	global $bdServeur, $bdUser, $bdMdp, $bdBase ;			
+	try {
+            $DBH = new PDO("mysql:host=$bdServeur;dbname=$bdBase", $bdUser, $bdMdp);
+                            }
+        catch(PDOException $e) {
+            echo $e->getMessage();
+            }
 				
-			mysqli_select_db($link, $bdBase)
-				or die("Erreur sur le nom de la base de donnée");
-				
-				return $link;
-		}
+	return $DBH;
+	}
 		
-		function mysqli_result($res, $row, $field=0) { 
+		
+		
+		
+	function mysqli_result($res, $row, $field=0) { 
     $res->data_seek($row); 
     $datarow = $res->fetch_array(); 
     return $datarow[$field]; 
