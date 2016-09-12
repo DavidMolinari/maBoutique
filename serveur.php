@@ -7,14 +7,11 @@ if (isset($_GET["txtLogin"])) {
   $login = $_GET["txtLogin"] ;
   $mdp = $_GET["pwdMdp"] ;
   
-  $curseur = $DBH->prepare( "select * from client where login= :login and mdp = :mdp");
-  
-  $curseur->bindParam(':login',$login );
-  
+  $curseur = $DBH->prepare( "select * from client where login= :login and mdp = :mdp"); 
+  $curseur->bindParam(':login',$login ); 
   $curseur->bindParam(':mdp',$mdp );
   $curseur->execute();
-  $result = $curseur->fetch();
-  
+  $result = $curseur->fetch(); 
 
   //$curseur = mysqli_query($link, "select * from client where login='".$login."' and mdp='".$mdp."'") ;
 
@@ -26,7 +23,6 @@ if (isset($_GET["txtLogin"])) {
   }else{
     echo "" ;
   }
-
 //--- enregistrement de la couleur du tshirt ---
 }elseif (isset($_POST["couleur"])) {
   $_SESSION["couleur"] = $_POST["couleur"] ;
@@ -38,7 +34,7 @@ if (isset($_GET["txtLogin"])) {
   }else{
     echo "" ;
   }
-  
+ 
 //--- supprimer l'enregistrement de la couleur du tshirt ---
 }elseif (isset($_POST["supprtshirt"])) {
   session_unregister("couleur") ;
@@ -46,24 +42,33 @@ if (isset($_GET["txtLogin"])) {
 //--- insertion d'un article dans le panier (si la personne est identifiée) ---
 }elseif (isset($_POST["panierplus"])) {
   if (isset($_SESSION["id"])) {
-    mysqli_query($link, "insert into panier values( ".$_SESSION["id"].", ".$_POST["panierplus"].")") ;
+	$query = $DBH->prepare("insert into panier values( :id, :panierplus)"); 
+	$query->bindParam(':id',$_SESSION["id"] ); 
+	$query->bindParam(':panierplus',$_POST["panierplus"] );
+	$query->execute();
   }
 
 //--- suppression d'un article du panier (si la personne est identifiée) ---
 }elseif (isset($_POST["paniermoins"])) {
   if (isset($_SESSION["id"])) {
-    mysqli_query($link, "delete from panier where idclient=".$_SESSION["id"]." and idarticle=".$_POST["paniermoins"]) ;
+	$query = $DBH->prepare("delete from panier where idclient= :id and idarticle= :paniermoins"); 
+	$query->bindParam(':id',$_SESSION["id"] ); 
+	$query->bindParam(':panierplus',$_POST["paniermoins"] );
+	$query->execute();
   }
 
 //--- contrôle si le login saisi n'existe pas déjà ---
 }elseif (isset($_GET["controle"])) {
   $login = $_GET["controle"] ;
-  $curseur = mysqli_query($link, "select * from client where login='".$login."'") ;
-  if (mysqli_num_rows($curseur)==0) {
+  $curseur = $DBH->prepare( "select * from client where login= :login"); 
+  $curseur->bindParam(':login',$login ); 
+  $query->execute();
+  $result = $curseur->fetch(); 
+  if ($curseur->rowCount()==0) {
     echo "faux" ;
   }elseif (!isset($_SESSION["id"])) {
     echo "vrai" ;
-  }elseif ($_SESSION["id"]!=mysqli_result($curseur, 0, "numclient")) {
+  }elseif ($_SESSION["id"]!=$result['numclient']) {
     echo "vrai" ;
   }else{
     echo "faux" ;
