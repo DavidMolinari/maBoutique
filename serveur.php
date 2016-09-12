@@ -1,7 +1,6 @@
 <?php
 include_once("php/init.php") ;
 $DBH = Connexion() ;
-
 //--- demande et contr�le d'identification ---
 if (isset($_GET["txtLogin"])) {
   $login = $_GET["txtLogin"] ;
@@ -54,6 +53,7 @@ if (isset($_GET["txtLogin"])) {
 	$query->bindParam(':id',$_SESSION["id"] );
 	$query->bindParam(':paniermoins',$_POST["paniermoins"] );
 	$query->execute();
+
   }
 
 //--- contr�le si le login saisi n'existe pas d�j� ---

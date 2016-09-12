@@ -232,7 +232,6 @@ function boutique () {
 
       //--- événements sur chaque article ---
       while (document.getElementById("img"+k)) {
-
         // gestion de la visualisation
         visualisation(k) ;
 
@@ -273,14 +272,13 @@ function boutique () {
  * page panier.php
  * ***************************************************************************/ 
 function panier () {
-
-      document.getElementById("divVisuel").style.visibility = "hidden" ;
-    
       //--- événements sur chaque article ---
       k = 0 ;
+      document.getElementById("divVisuel").style.visibility = "hidden" ;
+    
  
       while (document.getElementById("img"+k)) {
-
+          console.log("HELLO");
         // gestion de la visualisation
         visualisation(k) ;
         // sur le clic de la corbeille : suppression d'un élément
