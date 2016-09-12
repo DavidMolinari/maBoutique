@@ -1,17 +1,18 @@
-<?php       
+<?php
 include_once("php/init.php") ;
 $DBH = Connexion() ;
 
-//--- demande et contrôle d'identification ---
+//--- demande et contrï¿½le d'identification ---
 if (isset($_GET["txtLogin"])) {
   $login = $_GET["txtLogin"] ;
   $mdp = $_GET["pwdMdp"] ;
-  
-  $curseur = $DBH->prepare( "select * from client where login= :login and mdp = :mdp"); 
-  $curseur->bindParam(':login',$login ); 
+
+  // Passage en PDO pour les requÃªtes SQL
+  $curseur = $DBH->prepare( "select * from client where login= :login and mdp = :mdp
+  $curseur->bindParam(':login',$login );
   $curseur->bindParam(':mdp',$mdp );
   $curseur->execute();
-  $result = $curseur->fetch(); 
+  $result = $curseur->fetch();
 
   if ($curseur->rowCount() !=0) {
     $_SESSION["login"] = $login ;
@@ -25,43 +26,43 @@ if (isset($_GET["txtLogin"])) {
 }elseif (isset($_POST["couleur"])) {
   $_SESSION["couleur"] = $_POST["couleur"] ;
 
-//--- controle si une couleur de tshirt a éjà été sélectionnée ---
+//--- controle si une couleur de tshirt a ï¿½jï¿½ ï¿½tï¿½ sï¿½lectionnï¿½e ---
 }elseif (isset($_GET["tshirt"])) {
   if (isset($_SESSION["couleur"])) {
     echo $_SESSION["couleur"] ;
   }else{
     echo "" ;
   }
- 
+
 //--- supprimer l'enregistrement de la couleur du tshirt ---
 }elseif (isset($_POST["supprtshirt"])) {
   session_unregister("couleur") ;
 
-//--- insertion d'un article dans le panier (si la personne est identifiée) ---
+//--- insertion d'un article dans le panier (si la personne est identifiï¿½e) ---
 }elseif (isset($_POST["panierplus"])) {
   if (isset($_SESSION["id"])) {
-	$query = $DBH->prepare("insert into panier values( :id, :panierplus)"); 
-	$query->bindParam(':id',$_SESSION["id"] ); 
+	$query = $DBH->prepare("insert into panier values( :id, :panierplus)");
+	$query->bindParam(':id',$_SESSION["id"] );
 	$query->bindParam(':panierplus',$_POST["panierplus"] );
 	$query->execute();
   }
 
-//--- suppression d'un article du panier (si la personne est identifiée) ---
+//--- suppression d'un article du panier (si la personne est identifiï¿½e) ---
 }elseif (isset($_POST["paniermoins"])) {
   if (isset($_SESSION["id"])) {
-	$query = $DBH->prepare("delete from panier where idclient= :id and idarticle= :paniermoins"); 
-	$query->bindParam(':id',$_SESSION["id"] ); 
+	$query = $DBH->prepare("delete from panier where idclient= :id and idarticle= :paniermoins");
+	$query->bindParam(':id',$_SESSION["id"] );
 	$query->bindParam(':panierplus',$_POST["paniermoins"] );
 	$query->execute();
   }
 
-//--- contrôle si le login saisi n'existe pas déjà ---
+//--- contrï¿½le si le login saisi n'existe pas dï¿½jï¿½ ---
 }elseif (isset($_GET["controle"])) {
   $login = $_GET["controle"] ;
-  $curseur = $DBH->prepare( "select * from client where login= :login"); 
-  $curseur->bindParam(':login',$login ); 
+  $curseur = $DBH->prepare( "select * from client where login= :login");
+  $curseur->bindParam(':login',$login );
   $query->execute();
-  $result = $curseur->fetch(); 
+  $result = $curseur->fetch();
   if ($curseur->rowCount()==0) {
     echo "faux" ;
   }elseif (!isset($_SESSION["id"])) {
@@ -74,7 +75,7 @@ if (isset($_GET["txtLogin"])) {
 
 //--- enregistrement des informations de la personne ---
 }elseif (isset($_GET["login"])) {
-  // récupération de toutes les informations
+  // rï¿½cupï¿½ration de toutes les informations
   $nom = $_GET["nom"] ;
   $prenom = $_GET["prenom"] ;
   $adr1 = $_GET["adr1"] ;
@@ -89,22 +90,52 @@ if (isset($_GET["txtLogin"])) {
 
   // ajoute ou modifie (suivant si la personne existe ou non)
   if (isset($_SESSION["id"])) {
-    $id = $_SESSION["id"] ; 
-    $requete = 'update client set nom="'.$nom.'", prenom="'.$prenom.'", adr1="'.$adr1.'", adr2="'.$adr2.'", cp="'.$cp.'", ville="'.$ville.'", infoslivraison="'.$infoslivraison.'", tel="'.$tel.'", mail="'.$mail.'", login="'.$login.'", mdp="'.$mdp.'" where numclient='.$id ;
-    mysqli_query($link, $requete) ;
+    $id = $_SESSION["id"] ;
+	$requete = $DBH->prepare( "UPDATE CLIENT SET nom= :nom, prenom = :prenom,adr1= :adr1, adr2= :adr2, cp= :cp, ville= :ville, infolivraison= :infolivraison, tel= :tel, mail= :mail, login= login, mdp= :mdp, where numclient= :numclient");
+	$requete->bindParam(':nom',$nom );
+	$requete->bindParam(':prenom',$prenom );
+	$requete->bindParam(':adr1',$adr1 );
+	$requete->bindParam(':adr2',$adr2 );
+	$requete->bindParam(':cp',$cp );
+	$requete->bindParam(':ville',$ville );
+	$requete->bindParam(':infoslivraison',$infoslivraison );
+	$requete->bindParam(':tel',$tel );
+	$requete->bindParam(':mail',$mail );
+	$requete->bindParam(':login',$login );
+	$requete->bindParam(':mdp',$mdp );
+	$requete->bindParam(':numclient',$id );
+	$requete->execute();
+	$result = $requete->fetch();
+
+   // $requete = 'update client set nom="'.$nom.'", prenom="'.$prenom.'", adr1="'.$adr1.'", adr2="'.$adr2.'", cp="'.$cp.'",
+	//ville="'.$ville.'", infoslivraison="'.$infoslivraison.'", tel="'.$tel.'", mail="'.$mail.'", login="'.$login.'", mdp="'.$mdp.'" where numclient='.$id ;
+   // mysqli_query($link, $requete) ;
   }else{
-    $requete = 'insert into client values ("", "'.$nom.'", "'.$prenom.'", "'.$adr1.'", "'.$adr2.'", "'.$cp.'", "'.$ville.'", "'.$infoslivraison.'", "'.$tel.'", "'.$mail.'", "'.$login.'", "'.$mdp.'")' ;
-    mysqli_query($link, $requete) ;
-    $id = mysqli_insert_id() ;
+    $requete = $DBH->prepare('insert into client values ("", ":nom", ":prenom", ":adr1", ":adr1", ":cp", ":ville", ":infoslivraison", ":tel", ":mail", ":login", ":mdp"') ;
+	$requete->bindParam(':nom',$nom );
+	$requete->bindParam(':prenom',$prenom );
+	$requete->bindParam(':adr1',$adr1 );
+	$requete->bindParam(':adr2',$adr2 );
+	$requete->bindParam(':cp',$cp );
+	$requete->bindParam(':ville',$ville );
+	$requete->bindParam(':infoslivraison',$infoslivraison );
+	$requete->bindParam(':tel',$tel );
+	$requete->bindParam(':mail',$mail );
+	$requete->bindParam(':login',$login );
+	$requete->bindParam(':mdp',$mdp );
+	$requete->bindParam(':numclient',$id );
+	$requete->execute();
+	$result = $requete->fetch();
+    $id = $DBH->lastInsertId();
   }
 
-  // met à jour les variables de session et le cookie
+  // met ï¿½ jour les variables de session et le cookie
   $_SESSION["login"] = $login ;
   $_SESSION["id"] = $id ;
   setcookie("login", $id * 353 - 27, time()+60*60*24*3600) ;
 
 }else{
-  // demande de déconnexion
+  // demande de dï¿½connexion
   session_unregister("login") ;
   session_unregister("id") ;
   setcookie("login", "", time() - 3600) ;
