@@ -35,10 +35,16 @@
       if ($fic!="." && $fic!=".." && exif_imagetype ($ficComplet)) {
         $nom = substr($fic,0,strlen($fic)-4) ;
         // r�cup�ration des informations du fichier image
-        $infos = exif_read_data($ficComplet, 0, true) ;
-        $titre = enleveUnSurDeux($infos["IFD0"]["Title"]) ;
-        $sujet = enleveUnSurDeux($infos["IFD0"]["Subject"]) ;
-        $commentaire = enleveUnSurDeux($infos["IFD0"]["Comments"]) ;
+
+        $infos = exif_read_data($ficComplet, 0, true);
+        if(isset($infos["IFD0"]["Comments"])) {$commentaire = enleveUnSurDeux($infos["IFD0"]["Comments"]); } else $commentaire = "";
+        if(isset($infos["IFD0"]["Subject"])) {$sujet = enleveUnSurDeux($infos["IFD0"]["Subject"]) ; } else $sujet = "";
+        if(isset($infos["IFD0"]["Title"])) {$titre = enleveUnSurDeux($infos["IFD0"]["Title"]) ; } else $titre = "";
+
+        //$commentaire = enleveUnSurDeux($infos["IFD0"]["Comments"]) ;
+        //$title = enleveUnSurDeux($infos["IFD0"]["Title"]) ;
+        //$sujet = enleveUnSurDeux($infos["IFD0"]["Subject"]) ;
+
         // construction de la ligne de gauche
         $lesarticles .= '<tr>' ;
         $lesarticles .= '<td class="td1"><img id="img'.$k.'" src="'.$ficComplet.'" alt="'.$titre.'" class="imgBoutique" /></td>' ;
