@@ -13,8 +13,6 @@ if (isset($_GET["txtLogin"])) {
   $curseur->execute();
   $result = $curseur->fetch(); 
 
-  //$curseur = mysqli_query($link, "select * from client where login='".$login."' and mdp='".$mdp."'") ;
-
   if ($curseur->rowCount() !=0) {
     $_SESSION["login"] = $login ;
     $_SESSION["id"] = $result['numclient'];
