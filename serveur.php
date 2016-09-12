@@ -8,7 +8,7 @@ if (isset($_GET["txtLogin"])) {
   $mdp = $_GET["pwdMdp"] ;
 
   // Passage en PDO pour les requêtes SQL
-  $curseur = $DBH->prepare( "select * from client where login= :login and mdp = :mdp
+  $curseur = $DBH->prepare( "select * from client where login= :login and mdp = :mdp");
   $curseur->bindParam(':login',$login );
   $curseur->bindParam(':mdp',$mdp );
   $curseur->execute();
