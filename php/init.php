@@ -20,7 +20,7 @@ $DBH = Connexion() ;
 if (isset($_COOKIE["login"])) {
   $leId = ($_COOKIE["login"] + 27) / 353 ;
   //
-   $curseur= $DBH->prepare("select * from panier where numclient= :numclient");
+   $curseur= $DBH->prepare("select * from client where numclient= :numclient");
    $curseur->bindParam(':numclient',$leId );
    $curseur->execute();
    $result = $curseur->fetch();
@@ -38,6 +38,16 @@ if (isset($_SESSION["login"])) {
 }else{
   $login = "" ;
   $id = "" ;
+}
+
+function debug_to_console( $data ) {
+
+    if ( is_array( $data ) )
+        $output = "<script>alert( 'Debug Objects: " . implode( ',', $data) . "' );</script>";
+    else
+        $output = "<script>alert( 'Debug Objects: " . $data . "' );</script>";
+
+    echo $output;
 }
 
 ?>

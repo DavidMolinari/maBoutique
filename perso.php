@@ -1,6 +1,5 @@
-<?php include ("head.php") ; ?>
+<?php include ("head.php") ;
 
-  <?php
   // initialisation des variables
   $nom = "" ;
   $prenom = "" ;
@@ -18,7 +17,7 @@
   // v�rifie si la personne est connect�e
   if (isset($_SESSION["id"])) {
     // si elle est connect�e, r�cup�ration de ses informations personnelles
-    $curseur = $DBH->prepare( "select * from client where login= :login and mdp = :mdp");
+    $curseur = $DBH->prepare( "select * from client where numclient = :numclient");
     $curseur->bindParam(':numclient',$_SESSION["id"] );
     $curseur->execute();
     $result = $curseur->fetch();
@@ -28,12 +27,15 @@
     $adr2 = $result['adr2'];
     $cp = $result['cp'];
     $ville = $result['ville'];
-    $infoslivraison = $result['$infoslivraison'];
+    $infoslivraison = $result['infoslivraison'];
     $tel = $result['tel'];
     $mail = $result['mail'];
     $login = $result['login'];
     $mdp =  $result['mdp'];
+    $mdpverif =  $result['mdp'];
     $message = "Bienvenue dans votre espace personnel.<br />Vous pouvez consulter, modifier vos informations et les enregistrer." ;
+
+
   }else{
     // si c'est une nouvelle personne, message personnalis� (et les variables restent vides)
     $message = "Bienvenue dans l'espace d'inscription.<br />Saisissez vos informations. Les zones avec * sont obligatoires." ;

@@ -131,8 +131,8 @@ function perso () {
               document.location.href = "index.php" ;
             }
             lachaine = "nom="+nom+"&prenom="+prenom+"&adr1="+adr1+"&adr2="+adr2+"&cp="+cp+"&ville="+ville+"&infoslivraison="+infoslivraison+"&tel="+tel+"&mail="+mail+"&login="+login+"&mdp="+mdp ;
-            AjaxReception ("serveur.php?"+lachaine, "text", controlModif) ;
-          }
+            AjaxReception ("serveur.php?"+lachaine, "text", controlModif);
+         }
         }
         AjaxReception ("serveur.php?controle="+login, "text", controlLogin)
       }
@@ -652,7 +652,7 @@ function AjaxReception (nomfic, typefic, uneFonction) {
 	  }
     xhr.open("GET", nomfic, true) ;  
     xhr.send(null) ;
-  }
+  }return xhr.status;
    
 }
 
