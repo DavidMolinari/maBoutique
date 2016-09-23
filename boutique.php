@@ -22,8 +22,8 @@
       if (isset($_SESSION["id"])) {
 
         $curseur= $DBH->prepare("select * from panier where idclient= :idclient and idarticle= :idarticle");
-        $curseur->bindParam(':idclient',$_SESSION["id"]);
-        $curseur->bindParam(':idarticle',$k);
+        $curseur->bindParam(':idclient',$_SESSION["id"],PDO::PARAM_INT);
+        $curseur->bindParam(':idarticle',$k,PDO::PARAM_INT);
         $curseur->execute();
         $result = $curseur->fetch();
         $articlePresent = ($curseur->rowCount()!=0) ;

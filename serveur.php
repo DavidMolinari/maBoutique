@@ -8,8 +8,8 @@ if (isset($_GET["txtLogin"])) {
 
   // Passage en PDO pour les requêtes SQL
   $curseur = $DBH->prepare( "select * from client where login= :login and mdp = :mdp");
-  $curseur->bindParam(':login',$login );
-  $curseur->bindParam(':mdp',$mdp );
+  $curseur->bindParam(':login',$login,PDO::PARAM_STR );
+  $curseur->bindParam(':mdp',$mdp,PDO::PARAM_STR );
   $curseur->execute();
   $result = $curseur->fetch();
 
@@ -41,8 +41,8 @@ if (isset($_GET["txtLogin"])) {
 }elseif (isset($_POST["panierplus"])) {
   if (isset($_SESSION["id"])) {
 	$query = $DBH->prepare("insert into panier values( :id, :panierplus)");
-	$query->bindParam(':id',$_SESSION["id"] );
-	$query->bindParam(':panierplus',$_POST["panierplus"] );
+	$query->bindParam(':id',$_SESSION["id"],PDO::PARAM_INT );
+	$query->bindParam(':panierplus',$_POST["panierplus"],PDO::PARAM_INT );
 	$query->execute();
   }
 
@@ -50,8 +50,8 @@ if (isset($_GET["txtLogin"])) {
 }elseif (isset($_POST["paniermoins"])) {
   if (isset($_SESSION["id"])) {
 	$query = $DBH->prepare("delete from panier where idclient= :id and idarticle= :paniermoins");
-	$query->bindParam(':id',$_SESSION["id"] );
-	$query->bindParam(':paniermoins',$_POST["paniermoins"] );
+	$query->bindParam(':id',$_SESSION["id"],PDO::PARAM_INT);
+	$query->bindParam(':paniermoins',$_POST["paniermoins"],PDO::PARAM_INT);
 	$query->execute();
 
   }
@@ -60,7 +60,7 @@ if (isset($_GET["txtLogin"])) {
 }elseif (isset($_GET["controle"])) {
   $login = $_GET["controle"] ;
   $curseur = $DBH->prepare( "select * from client where login= :login");
-  $curseur->bindParam(':login', $login );
+  $curseur->bindParam(':login', $login,PDO::PARAM_STR);
   $curseur->execute();
   $result = $curseur->fetch();
   if ($curseur->rowCount()==0) {
@@ -94,37 +94,37 @@ if (isset($_GET["txtLogin"])) {
   $id = $_SESSION["id"] ;
 
 	$requete = $DBH->prepare("update CLIENT SET nom= :nom, prenom = :prenom,adr1= :adr1, adr2= :adr2, cp= :cp, ville= :ville, infoslivraison= :infoslivraison, tel= :tel, mail= :mail, login= :login, mdp= :mdp where numclient= :numclient");
-	$requete->bindParam(':nom',$nom );
-	$requete->bindParam(':prenom',$prenom );
-	$requete->bindParam(':adr1',$adr1 );
-	$requete->bindParam(':adr2',$adr2 );
-	$requete->bindParam(':cp',$cp );
-	$requete->bindParam(':ville',$ville );
-	$requete->bindParam(':infoslivraison',$infoslivraison );
-	$requete->bindParam(':tel',$tel );
-	$requete->bindParam(':mail',$mail );
-	$requete->bindParam(':login',$login );
-	$requete->bindParam(':mdp',$mdp );
-	$requete->bindParam(':numclient',$id );
+	$requete->bindParam(':nom',$nom,PDO::PARAM_STR);
+	$requete->bindParam(':prenom',$prenom ,PDO::PARAM_STR);
+	$requete->bindParam(':adr1',$adr1 ,PDO::PARAM_STR);
+	$requete->bindParam(':adr2',$adr2 ,PDO::PARAM_STR);
+	$requete->bindParam(':cp',$cp ,PDO::PARAM_STR);
+	$requete->bindParam(':ville',$ville ,PDO::PARAM_STR);
+	$requete->bindParam(':infoslivraison',$infoslivraison ,PDO::PARAM_STR);
+	$requete->bindParam(':tel',$tel ,PDO::PARAM_STR);
+	$requete->bindParam(':mail',$mail ,PDO::PARAM_STR);
+	$requete->bindParam(':login',$login ,PDO::PARAM_STR);
+	$requete->bindParam(':mdp',$mdp ,PDO::PARAM_STR);
+	$requete->bindParam(':numclient',$id ,PDO::PARAM_INT);
 	$requete->execute();
 	$result = $requete->fetch();
 
 
   }else{
     $requete = $DBH->prepare('insert into client values (:numclient, :nom, :prenom, :adr1, :adr2, :cp, :ville, :infoslivraison, :tel, :mail, :login, :mdp)') ;
-	$requete->bindParam(':nom',$nom );
-	$requete->bindParam(':prenom',$prenom );
-	$requete->bindParam(':adr1',$adr1 );
-	$requete->bindParam(':adr2',$adr2 );
-	$requete->bindParam(':cp',$cp );
-	$requete->bindParam(':ville',$ville );
-	$requete->bindParam(':infoslivraison',$infoslivraison );
-	$requete->bindParam(':tel',$tel );
-	$requete->bindParam(':mail',$mail );
-	$requete->bindParam(':login',$login );
-	$requete->bindParam(':mdp',$mdp );
+	$requete->bindParam(':nom',$nom ,PDO::PARAM_STR);
+	$requete->bindParam(':prenom',$prenom,PDO::PARAM_STR );
+	$requete->bindParam(':adr1',$adr1,PDO::PARAM_STR );
+	$requete->bindParam(':adr2',$adr2 ,PDO::PARAM_STR);
+	$requete->bindParam(':cp',$cp ,PDO::PARAM_STR);
+	$requete->bindParam(':ville',$ville,PDO::PARAM_STR );
+	$requete->bindParam(':infoslivraison',$infoslivraison,PDO::PARAM_STR );
+	$requete->bindParam(':tel',$tel ,PDO::PARAM_STR);
+	$requete->bindParam(':mail',$mail ,PDO::PARAM_STR);
+	$requete->bindParam(':login',$login,PDO::PARAM_STR );
+	$requete->bindParam(':mdp',$mdp ,PDO::PARAM_STR);
     $id = $DBH->lastInsertId();
-	$requete->bindParam(':numclient', $id );
+	$requete->bindParam(':numclient', $id ,PDO::PARAM_INT);
 	$requete->execute();
 	$result = $requete->fetch();
 
@@ -142,5 +142,4 @@ if (isset($_GET["txtLogin"])) {
   setcookie("login", "", time() - 3600) ;
 }
 
-//header("location:index.php") ;
 ?>

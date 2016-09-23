@@ -45,8 +45,8 @@ if (!isset($_SESSION["id"])) { ?>
 
         //--- r�cup�ration de l'article que s'il est dans le panier ---
         $curseur= $DBH->prepare("select * from panier where idclient= :idclient and idarticle= :idarticle");
-        $curseur->bindParam(':idclient',$id );
-        $curseur->bindParam(':idarticle',$k );
+        $curseur->bindParam(':idclient',$id ,PDO::PARAM_INT);
+        $curseur->bindParam(':idarticle',$k ,PDO::PARAM_INT);
 
         $curseur->execute();
         $result = $curseur->fetch();

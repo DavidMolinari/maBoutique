@@ -21,7 +21,7 @@ if (isset($_COOKIE["login"])) {
   $leId = ($_COOKIE["login"] + 27) / 353 ;
   //
    $curseur= $DBH->prepare("select * from client where numclient= :numclient");
-   $curseur->bindParam(':numclient',$leId );
+   $curseur->bindParam(':numclient',$leId,PDO::PARAM_INT);
    $curseur->execute();
    $result = $curseur->fetch();
 

@@ -18,7 +18,7 @@
   if (isset($_SESSION["id"])) {
     // si elle est connect�e, r�cup�ration de ses informations personnelles
     $curseur = $DBH->prepare( "select * from client where numclient = :numclient");
-    $curseur->bindParam(':numclient',$_SESSION["id"] );
+    $curseur->bindParam(':numclient',$_SESSION["id"] ,PDO::PARAM_INT);
     $curseur->execute();
     $result = $curseur->fetch();
     $nom = $result['nom'];
